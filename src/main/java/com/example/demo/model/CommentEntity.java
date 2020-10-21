@@ -90,23 +90,7 @@ public class CommentEntity {
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "concertId", referencedColumnName = "id")
-    public ConcertEntity getConcertByConcertId() {
-        return concertByConcertId;
-    }
 
-    public void setConcertByConcertId(ConcertEntity concertByConcertId) {
-        this.concertByConcertId = concertByConcertId;
-    }
 
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    public UsersEntity getUsersByUserId() {
-        return usersByUserId;
-    }
 
-    public void setUsersByUserId(UsersEntity usersByUserId) {
-        this.usersByUserId = usersByUserId;
-    }
 }

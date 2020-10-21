@@ -117,12 +117,5 @@ public class ConcertEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "concertByConcertId")
-    public Collection<CommentEntity> getCommentsById() {
-        return commentsById;
-    }
 
-    public void setCommentsById(Collection<CommentEntity> commentsById) {
-        this.commentsById = commentsById;
-    }
 }
