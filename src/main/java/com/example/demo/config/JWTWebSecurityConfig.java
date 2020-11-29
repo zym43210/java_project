@@ -1,4 +1,4 @@
-package com.example.demo.conf;
+package com.example.demo.config;
 
 import com.example.demo.security.JwtTokenAuthorizationOncePerRequestFilter;
 import com.example.demo.security.JwtUnAuthorizedResponseAuthenticationEntryPoint;
@@ -65,10 +65,10 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/rest/api/v1/places/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT,"/rest/api/v1/places/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/rest/api/v1/places/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET,"/rest/api/v1/events/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/rest/api/v1/events/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT,"/rest/api/v1/events/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/rest/api/v1/events/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"/rest/api/v1/concerts/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/rest/api/v1/concerts/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/rest/api/v1/concerts/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/rest/api/v1/concerts/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET,"/rest/api/v1/comments/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/rest/api/v1/comments/**").hasAuthority("USER");
 

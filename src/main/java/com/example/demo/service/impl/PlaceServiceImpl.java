@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class PlaceServiceImpl implements PlaceService {
     private final PlaceRepository placeRepository;
-    private final ConcertServiceImpl eventService;
+    private final ConcertServiceImpl concertService;
     private final CommentServiceImpl commentService;
 
     @Autowired
-    public PlaceServiceImpl(PlaceRepository placeRepository, ConcertServiceImpl eventService, CommentServiceImpl commentService) {
+    public PlaceServiceImpl(PlaceRepository placeRepository, ConcertServiceImpl concertService, CommentServiceImpl commentService) {
         this.placeRepository = placeRepository;
-        this.eventService = eventService;
+        this.concertService = concertService;
         this.commentService = commentService;
     }
 
@@ -51,7 +51,7 @@ public class PlaceServiceImpl implements PlaceService {
     public void savePlace(PlaceDto placeDto) {
         Place place = Mapper.map(placeDto, Place.class);
 
-        place.setEvents(new HashSet<>());
+        place.setConcerts(new HashSet<>());
 
         placeRepository.save(place);
     }
@@ -76,15 +76,15 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void deletePlace(Long id) {
-        if(eventService.getAllEventsByPlaceId(id).isPresent()){
-            for (var x:eventService.getAllEventsByPlaceId(id).get()) {
-                if(commentService.getAllCommentsByEventId(x.getId()).isPresent()){
-                    for(var y: commentService.getAllCommentsByEventId(x.getId()).get()){
-                        commentService.deleteCommentsByEventId(y.getId());
+        if(concertService.getAllConcertsByPlaceId(id).isPresent()){
+            for (var x:concertService.getAllConcertsByPlaceId(id).get()) {
+                if(commentService.getAllCommentsByConcertId(x.getId()).isPresent()){
+                    for(var y: commentService.getAllCommentsByConcertId(x.getId()).get()){
+                        commentService.deleteCommentsByConcertId(y.getId());
                     }
                 }
 
-                eventService.deleteAllEventsByPlaceId(id);
+                concertService.deleteAllConcertsByPlaceId(id);
             }
         }
         placeRepository.deletePlaceById(id);

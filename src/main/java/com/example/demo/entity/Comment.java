@@ -25,7 +25,7 @@ public class Comment {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "CONCERTS_ID")
     @JsonManagedReference
-    private Concert event;
+    private Concert concert;
     @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER,cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference
     private Collection<File> file;

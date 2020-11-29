@@ -1,4 +1,4 @@
-package com.example.demo.conf;
+package com.example.demo.config;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

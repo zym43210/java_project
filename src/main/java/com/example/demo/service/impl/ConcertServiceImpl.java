@@ -2,12 +2,12 @@ package com.example.demo.service.impl;
 
 import com.example.demo.aspect.Loggable;
 import com.example.demo.config.Mapper;
-import com.example.demo.dto.EventDto;
-import com.example.demo.entity.Event;
+import com.example.demo.dto.ConcertDto;
+import com.example.demo.entity.Concert;
 import com.example.demo.repository.CommentRepository;
-import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.ConcertRepository;
 import com.example.demo.repository.PlaceRepository;
-import com.example.demo.service.EventService;
+import com.example.demo.service.ConcertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,73 +20,73 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ConcertServiceImpl implements EventService {
-    private final EventRepository eventRepository;
+public class ConcertServiceImpl implements ConcertService {
+    private final ConcertRepository concertRepository;
     private final PlaceRepository placeRepository;
     private final CommentRepository commentRepository;
 
     @Autowired
-    public ConcertServiceImpl(EventRepository eventRepository,
+    public ConcertServiceImpl(ConcertRepository concertRepository,
                               PlaceRepository placeRepository,
                               CommentRepository commentRepository) {
-        this.eventRepository = eventRepository;
+        this.concertRepository = concertRepository;
         this.placeRepository = placeRepository;
         this.commentRepository = commentRepository;
     }
 
     @Override
     @Loggable
-    public Collection<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public Collection<Concert> getAllConcerts() {
+        return concertRepository.findAll();
     }
 
     @Override
     @Loggable
-    public Event getEventById(Long id) throws Exception {
-        if(eventRepository
+    public Concert getConcertById(Long id) throws Exception {
+        if(concertRepository
                 .findById(id)
-                .isEmpty()) throw new Exception("Event not found");
-        return eventRepository
+                .isEmpty()) throw new Exception("Concert not found");
+        return concertRepository
                 .findById(id)
                 .get();
     }
 
     @Override
     @Loggable
-    public Event getEventByName(String name) throws Exception {
-        if(eventRepository
-                .findEventByName(name)
-                .isEmpty()) throw new Exception("Event not found");
-        return eventRepository
-                .findEventByName(name)
+    public Concert getConcertByName(String name) throws Exception {
+        if(concertRepository
+                .findConcertByName(name)
+                .isEmpty()) throw new Exception("Concert not found");
+        return concertRepository
+                .findConcertByName(name)
                 .get();
     }
 
     @Override
     @Loggable
-    public void saveEvent(@Valid EventDto eventDto) {
-        Event event = Mapper.map(eventDto, Event.class);
-        event.setPlace(placeRepository
-                .findPlaceByName(eventDto
+    public void saveConcert(@Valid ConcertDto concertDto) {
+        Concert concert = Mapper.map(concertDto, Concert.class);
+        concert.setPlace(placeRepository
+                .findPlaceByName(concertDto
                         .getPlaceName())
                 .get());
 
-        event.setComments(new HashSet<>());
-        eventRepository.save(event);
+        concert.setComments(new HashSet<>());
+        concertRepository.save(concert);
     }
 
     @Override
     @Loggable
-    public Collection<Event> getEvents(int page, int counter) {
+    public Collection<Concert> getConcerts(int page, int counter) {
         Pageable pageable = PageRequest.of(page, counter);
-        return eventRepository.findAll(pageable).getContent();
+        return concertRepository.findAll(pageable).getContent();
     }
 
     @Override
     @Loggable
-    public Collection<Event> getAllEventByName(String name, int page, int counter) {
+    public Collection<Concert> getAllConcertByName(String name, int page, int counter) {
         Pageable pageable = PageRequest.of(page, counter);
-        return eventRepository.findAll(pageable)
+        return concertRepository.findAll(pageable)
                 .stream()
                 .filter(x->x.getName()
                         .contains(name))
@@ -94,41 +94,41 @@ public class ConcertServiceImpl implements EventService {
     }
 
     @Override
-    public Collection<Event> getAllEventByParams(EventDto eventDto) {
-        return eventRepository.getEventsByParams(eventDto.getName(),
-                eventDto.getPlaceName(),
-                eventDto.getStartDate(),
-                eventDto.getFinishDate())
+    public Collection<Concert> getAllConcertByParams(ConcertDto concertDto) {
+        return concertRepository.getConcertsByParams(concertDto.getName(),
+                concertDto.getPlaceName(),
+                concertDto.getStartDate(),
+                concertDto.getFinishDate())
                 .get();
     }
 
     @Override
-    public void deleteAllEventsByPlaceId(Long placeId) {
+    public void deleteAllConcertsByPlaceId(Long placeId) {
         placeRepository.deletePlaceById(placeId);
     }
 
     @Override
-    public Optional<Collection<Event>> getAllEventsByPlaceId(Long placeId) {
-        return eventRepository.getEventsByPlaceId(placeId);
+    public Optional<Collection<Concert>> getAllConcertsByPlaceId(Long placeId) {
+        return concertRepository.getConcertsByPlaceId(placeId);
     }
 
     @Override
-    public void deleteEvent(Long id) {
-        if(commentRepository.getCommentsByEventId(id).isPresent()){
-            for(var y: commentRepository.getCommentsByEventId(id).get()){
-                commentRepository.deleteCommentsByEventId(y.getId());
+    public void deleteConcert(Long id) {
+        if(commentRepository.getCommentsByConcertId(id).isPresent()){
+            for(var y: commentRepository.getCommentsByConcertId(id).get()){
+                commentRepository.deleteCommentsByConcertId(y.getId());
             }
         }
-        eventRepository.deleteEventById(id);
+        concertRepository.deleteConcertById(id);
     }
 
     @Override
-    public void updateEvent(EventDto eventDto, Long id) {
-        Event eventToUpdate=eventRepository.findById(id).get();
-        eventToUpdate.setName(eventDto.getName());
-        eventToUpdate.setStartDate(eventDto.getStartDate());
-        eventToUpdate.setFinishDate(eventDto.getFinishDate());
-        eventToUpdate.setPlace(placeRepository.findPlaceByName(eventDto.getPlaceName()).get());
-        eventRepository.save(eventToUpdate);
+    public void updateConcert(ConcertDto concertDto, Long id) {
+        Concert concertToUpdate=concertRepository.findById(id).get();
+        concertToUpdate.setName(concertDto.getName());
+        concertToUpdate.setStartDate(concertDto.getStartDate());
+        concertToUpdate.setFinishDate(concertDto.getFinishDate());
+        concertToUpdate.setPlace(placeRepository.findPlaceByName(concertDto.getPlaceName()).get());
+        concertRepository.save(concertToUpdate);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Optional<Collection<Comment>> getCommentByEventId(Long eventId);
-    Optional<Collection<Comment>> getCommentsByEventId(Long eventId);
-    void deleteCommentsByEventId(Long eventId);
+    Optional<Collection<Comment>> getCommentByConcertId(Long concertId);
+    Optional<Collection<Comment>> getCommentsByConcertId(Long concertId);
+    void deleteCommentsByConcertId(Long concertId);
 }

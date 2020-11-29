@@ -26,18 +26,18 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final FileRepository fileRepository;
     private final UserServiceImpl userService;
-    private final ConcertServiceImpl eventService;
+    private final ConcertServiceImpl concertService;
 
 
     @Autowired
     public CommentServiceImpl(CommentRepository commentRepository,
                               FileRepository fileRepository,
                               UserServiceImpl userService,
-                              ConcertServiceImpl eventService) {
+                              ConcertServiceImpl concertService) {
         this.commentRepository = commentRepository;
         this.fileRepository = fileRepository;
         this.userService = userService;
-        this.eventService = eventService;
+        this.concertService = concertService;
     }
 
     @Override
@@ -48,9 +48,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Loggable
-    public Optional<Collection<Comment>> getAllCommentsByEventId(Long id) {
+    public Optional<Collection<Comment>> getAllCommentsByConcertId(Long id) {
         return commentRepository
-                .getCommentByEventId(id);
+                .getCommentByConcertId(id);
     }
 
     @Override
@@ -95,9 +95,9 @@ public class CommentServiceImpl implements CommentService {
             x.setComment(comment);
         }
 
-        comment.setEvent(eventService
-                .getEventById(commentDto
-                        .getEventId()));
+        comment.setConcert(concertService
+                .getConcertById(commentDto
+                        .getConcertId()));
         comment.setUser(userService
                 .getUserByUsername("denisario"));
 
@@ -107,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteCommentsByEventId(Long eventId) {
-        commentRepository.deleteCommentsByEventId(eventId);
+    public void deleteCommentsByConcertId(Long concertId) {
+        commentRepository.deleteCommentsByConcertId(concertId);
     }
 }

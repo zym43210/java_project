@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface CommentService {
     Collection<Comment> getAllComments();
-    Optional<Collection<Comment>> getAllCommentsByEventId(Long id);
+    Optional<Collection<Comment>> getAllCommentsByConcertId(Long id);
     void addComment(CommentDto commentDto,
                     Collection<MultipartFile> files,
                     HttpServletRequest req) throws Exception;
 
-    void deleteCommentsByEventId(Long eventId);
+    void deleteCommentsByConcertId(Long concertId);
 }
