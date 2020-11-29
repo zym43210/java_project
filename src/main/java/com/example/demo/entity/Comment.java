@@ -9,8 +9,8 @@ import java.util.Collection;
 @Entity(name = "COMMENTS")
 @Getter
 @Setter
-@ToString(exclude = {"user", "event"})
-@EqualsAndHashCode(exclude = {"user", "event", "file"})
+@ToString(exclude = {"user", "concert"})
+@EqualsAndHashCode(exclude = {"user", "concert", "file"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
@@ -23,9 +23,9 @@ public class Comment {
     @Column(name = "COMMENT_TEXT", nullable = false, length = 150)
     private String text;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "EVENTS_ID")
+    @JoinColumn(name = "CONCERTS_ID")
     @JsonManagedReference
-    private Event event;
+    private Concert event;
     @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER,cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference
     private Collection<File> file;
