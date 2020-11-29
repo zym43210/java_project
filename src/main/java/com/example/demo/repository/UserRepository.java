@@ -1,13 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.UsersEntity;
-import org.springframework.data.repository.CrudRepository;
+import com.example.demo.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends CrudRepository<UsersEntity, Integer> {
-
-    public UsersEntity findByLogin(String name);
-
-    public UsersEntity findByLoginAndPassword(String name, String pass);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findUserByUsername(String username);
 }

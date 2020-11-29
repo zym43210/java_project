@@ -1,15 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ConcertEntity;
-import com.example.demo.service.ConcertService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import java.util.Optional;
 
 @RestController
 public class ConcertController {
